@@ -1,2 +1,1 @@
-teste:
-	python utils/teste.py
+#empty for now
