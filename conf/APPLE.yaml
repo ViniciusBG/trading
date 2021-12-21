@@ -2,3 +2,8 @@
 ticker: "AAPL"
 start_date: "2021-01-01"
 train_end_date: "2021-05-01"
+
+#STOCKSTATS FEATURES
+stockstats_features:
+ - "MACD"
+ - "EMA"
