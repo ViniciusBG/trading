@@ -13,7 +13,7 @@ def generate_stockstats_features(ticker,train_predict="train"):
     data = load_data(ticker=ticker,
                     train_predict=train_predict,
                     stage="raw")
-
+    TODO: "Debugg this part of the code"
     print(data.columns)
     stockstats_dataframe  = StockDataFrame.retype(data)
 
