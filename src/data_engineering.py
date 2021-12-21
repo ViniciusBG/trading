@@ -1,11 +1,25 @@
 import yfinance as yf
 from omegaconf import OmegaConf
 import pandas as pd
+import os
 
 from src.globals import *
 
+def load_data(ticker,stage,train_predict="train"):
 
-def load_data(ticker,train_predict="train"):
+    # Creates the path to get the most updated 
+    path = f"data/{stage}/{ticker}/{train_predict}"
+    last_path = os.listdir(path)[-1]
+    full_path = os.path.join(path,last_path)
+    
+    # Reads the data
+    data = pd.read_csv(full_path)
+
+    print(data)
+    return data
+
+
+def download_data(ticker,train_predict="train"):
 
 
     conf = OmegaConf.load(f'conf/{ticker}.yaml')
@@ -19,7 +33,16 @@ def load_data(ticker,train_predict="train"):
         end_date= TODAY
 
     df = yf.download(stock,start_date, end_date)
-    df.to_csv(f"data/{ticker}__{end_date}__{train_predict}")
+
+
+    df.columns = [col.lower() for col in df.columns]
+    df = df.reset_index(inplace=True)
+
+    directory = f"data/raw/{ticker}/{train_predict}/"
+    if not os.path.exists(directory):
+        os.makedirs(directory)
+
+    df.to_csv(f"{directory}{end_date}")
     
     print(df)
     return df
