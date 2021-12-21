@@ -4,7 +4,7 @@ from datetime import datetime
 import matplotlib.pyplot as plt
 
 
-from utils import globals
+from src import globals
 # %%
 
 #%%

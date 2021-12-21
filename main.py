@@ -1,7 +1,7 @@
 import click
 
-from utils.data_engineering import load_data
-from utils.globals import *
+from src.data_engineering import load_data
+from src.globals import *
 
 
 @click.command()

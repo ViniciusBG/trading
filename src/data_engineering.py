@@ -2,7 +2,7 @@ import yfinance as yf
 from omegaconf import OmegaConf
 import pandas as pd
 
-from utils.globals import *
+from src.globals import *
 
 
 def load_data(ticker,train_predict="train"):
