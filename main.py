@@ -10,7 +10,10 @@ from src.globals import *
 @click.option("--train_predict", default="train")
 # @click.option('--stage',default="raw")
 def main(ticker, train_predict):
-    # download_data(ticker=ticker)
+    download_data(
+        ticker=ticker, 
+        train_predict=train_predict)
+
     generate_stockstats_features(
         ticker=ticker,
         train_predict=train_predict,
