@@ -1,4 +1,16 @@
 #Defaults
-ticker: "PFE"
-start_date: "2021-01-01"
-train_end_date: "2021-05-01"
+ticker: PFE
+start_date: 2021-01-01
+train_end_date: 2021-05-01
+
+#STOCKSTATS FEATURES
+stockstats_features:
+ - adx
+ - rsi_12
+ - rsi_20
+ - macd
+ - close
+ - close_10_sma
+ - close_20_sma
+ - close_100_sma
+ 
