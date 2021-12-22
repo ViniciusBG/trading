@@ -2,9 +2,11 @@ import yfinance as yf
 from omegaconf import OmegaConf
 import pandas as pd
 import os
+import logging
 
 from src.globals import *
 
+logger = logging.getLogger(__name__)
 
 def load_data(ticker, stage, train_predict="train"):
 
@@ -12,36 +14,42 @@ def load_data(ticker, stage, train_predict="train"):
     path = f"data/{stage}/{ticker}/{train_predict}"
     last_path = os.listdir(path)[-1]
     full_path = os.path.join(path, last_path)
+    logger.warning(f"Loading data from {full_path} ")
+
 
     # Reads the data
     data = pd.read_csv(full_path)
 
-    print(data)
+    #print(data)
     return data
 
 
 def download_data(ticker, train_predict="train"):
+    logger.warning(f"Downloading data for {ticker}")
 
+    # Loads the configuration file
     conf = OmegaConf.load(f"conf/{ticker}.yaml")
-
     stock = conf["ticker"]
     start_date = conf["start_date"]
 
+    # Decides the dates based on the purpose of the run
     if train_predict == "train":
         end_date = conf["train_end_date"]
     elif train_predict == "predict":
         end_date = TODAY
-
+    
+    # Loads the data
     df = yf.download(stock, start_date, end_date)
-
     df.columns = [col.lower() for col in df.columns]
     df = df.reset_index()
-
+    
+    # Defines the path do save the data
     directory = f"data/raw/{ticker}/{train_predict}/"
     if not os.path.exists(directory):
         os.makedirs(directory)
 
     df.to_csv(f"{directory}{TODAY}")
+    logger.warning(f"Saving the data --> {directory} ")
 
     return df
 
