@@ -16,11 +16,9 @@ def load_data(ticker, stage, train_predict="train"):
     full_path = os.path.join(path, last_path)
     logger.warning(f"Loading data from {full_path} ")
 
-
     # Reads the data
     data = pd.read_csv(full_path)
 
-    #print(data)
     return data
 
 
@@ -38,7 +36,7 @@ def download_data(ticker, train_predict="train"):
     elif train_predict == "predict":
         end_date = TODAY
     
-    # Loads the data
+    # Loads the data from yahoo finance
     df = yf.download(stock, start_date, end_date)
     df.columns = [col.lower() for col in df.columns]
     df = df.reset_index()
@@ -55,9 +53,9 @@ def download_data(ticker, train_predict="train"):
 
 
 def create_base_dataframe(ticker, train_predict="train"):
-
+    
+    # Loads the conf file
     conf = OmegaConf.load(f"conf/{ticker}.yaml")
-
     start_date = conf["start_date"]
 
     if train_predict == "train":
@@ -65,10 +63,10 @@ def create_base_dataframe(ticker, train_predict="train"):
     elif train_predict == "predict":
         end_date = TODAY
 
+    # Generates a dataframe with all the days
     base_dataframe = pd.date_range(start=start_date, end=end_date)
 
-    print(base_dataframe)
-
+    return base_dataframe
 
 def generate_target():
     pass
