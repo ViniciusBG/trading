@@ -61,3 +61,7 @@ def create_base_dataframe(ticker, train_predict="train"):
     base_dataframe = pd.date_range(start=start_date, end=end_date)
 
     print(base_dataframe)
+
+
+def generate_target():
+    pass

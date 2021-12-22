@@ -16,5 +16,5 @@ def generate_stockstats_features(ticker, train_predict="train"):
     stockstats_dataframe = StockDataFrame.retype(data)
 
     final_data = stockstats_dataframe[features_to_generate]
-
+    print(final_data)
     return final_data
