@@ -8,66 +8,78 @@ from src.globals import *
 
 logger = logging.getLogger(__name__)
 
-def load_data(ticker, stage, train_predict="train"):
+class StockDataManager():
 
-    # Creates the path to get the most updated
-    path = f"data/{stage}/{ticker}/{train_predict}"
-    last_path = os.listdir(path)[-1]
-    full_path = os.path.join(path, last_path)
-    logger.warning(f"Loading data from {full_path} ")
+    def __init__(self,ticker):
 
-    # Reads the data
-    data = pd.read_csv(full_path)
+        self.ticker = ticker
+        self._base_path = f"data/{ticker}/"
+        self.conf = OmegaConf.load(f"conf/{ticker}.yaml")
+        self.stock = self.conf["ticker"]
+        self.start_date = self.conf["start_date"]
+        self.end_date = self.conf["train_end_date"]
 
-    return data
-
-
-def download_data(ticker, train_predict="train"):
-    logger.warning(f"Downloading data for {ticker}")
-
-    # Loads the configuration file
-    conf = OmegaConf.load(f"conf/{ticker}.yaml")
-    stock = conf["ticker"]
-    start_date = conf["start_date"]
-
-    # Decides the dates based on the purpose of the run
-    if train_predict == "train":
-        end_date = conf["train_end_date"]
-    elif train_predict == "predict":
-        end_date = TODAY
     
-    # Loads the data from yahoo finance
-    df = yf.download(stock, start_date, end_date)
-    df.columns = [col.lower() for col in df.columns]
-    df = df.reset_index()
-    
-    # Defines the path do save the data
-    directory = f"data/raw/{ticker}/{train_predict}/"
-    if not os.path.exists(directory):
-        os.makedirs(directory)
+    def load_data(self,ticker, stage, train_predict="train"):
 
-    df.to_csv(f"{directory}{TODAY}")
-    logger.warning(f"Saving the data --> {directory} ")
+        # Creates the path to get the most updated
+        path = f"data/{stage}/{ticker}/{train_predict}"
+        last_path = os.listdir(path)[-1]
+        full_path = os.path.join(path, last_path)
+        logger.warning(f"Loading data from {full_path} ")
 
-    return df
+        # Reads the data
+        data = pd.read_csv(full_path)
+
+        return data
 
 
-def create_base_dataframe(ticker, train_predict="train"):
-    
-    # Loads the conf file
-    conf = OmegaConf.load(f"conf/{ticker}.yaml")
-    start_date = conf["start_date"]
+    def download_data(self, train_predict="train"):
+        logger.warning(f"Downloading data for {self.ticker}")
 
-    if train_predict == "train":
-        end_date = conf["train_end_date"]
-    elif train_predict == "predict":
-        end_date = TODAY
+        # Loads the configuration file
+        #conf = OmegaConf.load(f"conf/{self.ticker}.yaml")
+        stock = self.stock
+        start_date = self.start_date
 
-    # Generates a dataframe with all the days
-    base_dataframe = pd.date_range(start=start_date, end=end_date)
+        # Decides the dates based on the purpose of the run
+        if train_predict == "train":
+            end_date = self.end_date
+        elif train_predict == "predict":
+            end_date = TODAY
+        
+        # Loads the data from yahoo finance
+        df = yf.download(stock, start_date, end_date)
+        df.columns = [col.lower() for col in df.columns]
+        df = df.reset_index()
+        
+        # Defines the path do save the data
+        directory = f"data/raw/{self.ticker}/{train_predict}/"
+        if not os.path.exists(directory):
+            os.makedirs(directory)
 
-    return base_dataframe
-    
+        df.to_csv(f"{directory}{TODAY}")
+        logger.warning(f"Saving the data --> {directory} ")
 
-def generate_target():
-    pass
+        return df
+
+
+    def create_base_dataframe(ticker, train_predict="train"):
+        
+        # Loads the conf file
+        conf = OmegaConf.load(f"conf/{ticker}.yaml")
+        start_date = conf["start_date"]
+
+        if train_predict == "train":
+            end_date = conf["train_end_date"]
+        elif train_predict == "predict":
+            end_date = TODAY
+
+        # Generates a dataframe with all the days
+        base_dataframe = pd.date_range(start=start_date, end=end_date)
+
+        return base_dataframe
+
+
+    def generate_target():
+        pass
