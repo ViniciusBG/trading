@@ -5,18 +5,16 @@ import os
 import logging
 from stockstats import StockDataFrame
 
-from src.globals import *
-
-logger = logging.getLogger(__name__)
-
+from src.defaults import *
 from src.data_engineering import StockDataManager
 
+
 logger = logging.getLogger(__name__)
+
 
 class FeatureEngineering(StockDataManager):
     def __init__(self, ticker):
         super().__init__(ticker)
-        
 
     def generate_stockstats_features(ticker, train_predict="train"):
         pass

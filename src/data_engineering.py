@@ -6,7 +6,7 @@ import logging
 from stockstats import StockDataFrame
 
 
-from src.globals import *
+from src.defaults import *
 
 logger = logging.getLogger(__name__)
 
@@ -62,7 +62,6 @@ class StockDataManager:
 
         # Loads the conf file
         end_date = self._train_or_predict(train_predict)
-
         # Generates a dataframe with all the days
         base_dataframe = pd.date_range(start=self.start_date, end=end_date)
 
@@ -72,6 +71,16 @@ class StockDataManager:
         pass
 
     def _train_or_predict(self, stage):
+        """Defines the purpose of the data transformations.
+        If the purpose is to train models, it will have a fix end date.
+        If the purpose is a live prediction, it will get today's date
+
+        Args:
+            stage ([type]): [description]
+
+        Returns:
+            [type]: [description]
+        """
         if stage == "train":
             end_date = self.end_date
         elif stage == "predict":
