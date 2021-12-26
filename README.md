@@ -1,4 +1,4 @@
-# WIP trading app
+# [WIP] trading app
 
 WIP Project to create a complete trading system\
 
