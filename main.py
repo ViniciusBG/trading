@@ -1,8 +1,8 @@
 import click
 
-from src.data_engineering import download_data, load_data, create_base_dataframe
-from src.feature_engineering import generate_stockstats_features
-from src.globals import *
+from src.utils.data_engineering import download_data, load_data, create_base_dataframe
+from src.utils.feature_engineering import generate_stockstats_features
+from src.utils.globals import *
 
 
 @click.command()

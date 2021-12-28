@@ -5,8 +5,8 @@ import os
 import logging
 from stockstats import StockDataFrame
 
-from src.defaults import *
-from src.data_engineering import StockDataManager
+from src.utils.defaults import *
+from src.utils.data_engineering import StockDataManager
 
 
 logger = logging.getLogger(__name__)

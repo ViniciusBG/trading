@@ -6,7 +6,7 @@ import logging
 from stockstats import StockDataFrame
 
 
-from src.defaults import *
+from src.utils.defaults import *
 
 logger = logging.getLogger(__name__)
 
@@ -32,11 +32,11 @@ class StockDataManager:
         df = yf.download(self.stock, self.start_date, end_date)
         df.columns = [col.lower() for col in df.columns]
 
-        self._save_data(df=df, stage="raw",train_predict=train_predict)
+        self._save_data(df=df, stage="raw", train_predict=train_predict)
 
         return df
 
-    def _save_data(df,stage, train_predict):
+    def _save_data(self,df,stage, train_predict):
         # Defines the path do save the data
         directory = f"{self._base_path}/{stage}/{train_predict}/"
         if not os.path.exists(directory):

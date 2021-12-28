@@ -1,4 +1,4 @@
-from src.data_engineering import StockDataManager
+from src.utils.data_engineering import StockDataManager
 
 apple = StockDataManager("APPLE")
 
